@@ -13,12 +13,10 @@ namespace WebAppWithAPI.Infrastructures.Services
 {
     public class PoskodService : IPoskodService
     {
-        private readonly IHttpClientFactory clientFactory;
         private readonly ILogger<PoskodService> logger;
 
-        public PoskodService(IHttpClientFactory clientFactory,ILogger<PoskodService> logger)
+        public PoskodService(ILogger<PoskodService> logger)
         {
-            this.clientFactory = clientFactory;
             this.logger = logger;
         }
 

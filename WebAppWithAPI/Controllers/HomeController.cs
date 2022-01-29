@@ -22,7 +22,7 @@ namespace WebAppWithAPI.Controllers
             this.poskodService = poskodService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
 
@@ -35,12 +35,13 @@ namespace WebAppWithAPI.Controllers
             try
             {
                 //get input from datatable
-                var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
+                var length = Convert.ToInt32(Request.Form["length"].FirstOrDefault()); //max length or required only 10 
                 var page = Convert.ToInt32(Request.Form["start"].FirstOrDefault()) /length + 1;
+                var searchValue = Request.Form["search[value]"].FirstOrDefault() ?? "Johor";
                 var draw = Request.Form["draw"].FirstOrDefault();
 
                 //call service to get data from api
-                var data = await poskodService.GetPoskod("Johor", page, length);
+                var data = await poskodService.GetPoskod(searchValue , page, length);
 
                 //return json with important data for dt
                 return Json(new { draw = draw, recordsFiltered = data.totalRecords, recordsTotal = data.totalRecords, data = data.data });
