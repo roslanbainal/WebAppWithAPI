@@ -22,7 +22,7 @@ namespace WebAppWithAPI.Infrastructures.Services
             this.logger = logger;
         }
 
-        public async Task<FullPoskodViewModel> GetPoskod(PoskodRequest request)
+        public async Task<FullPoskodViewModel> GetPoskod(string search, int pageNumber, int pageSize)
         {
             try
             {
@@ -32,13 +32,13 @@ namespace WebAppWithAPI.Infrastructures.Services
                 using (var client = new HttpClient())
                 {
 
-                    string url = $"{API_URL}Poskod?PageNumber={request.PageNumber}&PageSize={request.PageSize}&Search={request.Search}";
+                    string url = $"{API_URL}Poskod?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}";
                     var response = client.GetAsync(url).Result;
                     string responseAsString = await response.Content.ReadAsStringAsync();
                     apiResult = JsonConvert.DeserializeObject<FullPoskodViewModel>(responseAsString);
                 }
 
-                logger.LogInformation($"Call poskod api for negeri {request.Search}");
+                logger.LogInformation($"Call poskod api for negeri {search}");
                 return apiResult;
             }
             catch(Exception ex)
