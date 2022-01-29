@@ -39,11 +39,8 @@ namespace WebAppWithAPI.Controllers
                 var page = Convert.ToInt32(Request.Form["start"].FirstOrDefault()) /length + 1;
                 var draw = Request.Form["draw"].FirstOrDefault();
 
-                //map between input dt and object request
-                PoskodRequest request = new PoskodRequest { PageNumber = page, PageSize = length, Search = "Johor" };
-
                 //call service to get data from api
-                var data = await poskodService.GetPoskod(request);
+                var data = await poskodService.GetPoskod("Johor", page, length);
 
                 //return json with important data for dt
                 return Json(new { draw = draw, recordsFiltered = data.totalRecords, recordsTotal = data.totalRecords, data = data.data });
