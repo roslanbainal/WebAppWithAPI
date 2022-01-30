@@ -26,6 +26,7 @@ namespace WebAppWithAPI.Infrastructures.Services
             {
                 var apiResult = new FullPoskodViewModel();
                 var API_URL = Constants.API.BaseURL;
+                search = (string.IsNullOrEmpty(search)) ? "Johor" : search;
 
                 using (var client = new HttpClient())
                 {
@@ -37,7 +38,7 @@ namespace WebAppWithAPI.Infrastructures.Services
                 }
 
                 logger.LogInformation($"Call poskod api for negeri {search}");
-                return apiResult;
+                return apiResult = (apiResult.data != null) ? apiResult : null;
             }
             catch(Exception ex)
             {

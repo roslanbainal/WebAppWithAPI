@@ -24,6 +24,10 @@
             "serverSide": true, // allow request from server
             "bLengthChange": false, //hide length dropdown
             "searching" : true, //hide searching input
+             "language": {
+              "zeroRecords": "No data Found",
+              "processing": 'Loading'
+            },
             "ajax": {
                 "url": "/Home/GetPoskod",
                 "type": "POST",
@@ -34,7 +38,7 @@
                 { "bSortable": false ,"targets": [1]}
             ],
             "columns": [ //add data to each column
-                { "data": "poskod", "name": "Poskod", "autoWidth": true }, 
+                { "data": "poskod", "name": "Poskod", "autoWidth": true },
                 { "data": "bandar", "name": "Bandar", "autoWidth": true },
             ]
         });
