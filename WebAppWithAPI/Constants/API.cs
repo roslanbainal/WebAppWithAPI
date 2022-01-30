@@ -2,6 +2,6 @@
 {
     public static class API
     {
-        public static string BaseURL = "https://simpleadvantage.dyndns.biz/poskodapi/api/";
+        public static string BASE_URL = "https://simpleadvantage.dyndns.biz/poskodapi/api/";
     }
 }
