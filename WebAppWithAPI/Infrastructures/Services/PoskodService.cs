@@ -13,11 +13,12 @@ namespace WebAppWithAPI.Infrastructures.Services
 {
     public class PoskodService : IPoskodService
     {
-        private readonly ILogger<PoskodService> logger;
+        private readonly ILogger<PoskodService> _logger;
+        private string API_URL = Constants.API.BASE_URL;
 
         public PoskodService(ILogger<PoskodService> logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         public async Task<FullPoskodViewModel> GetPoskod(string search, int pageNumber, int pageSize)
@@ -25,27 +26,36 @@ namespace WebAppWithAPI.Infrastructures.Services
             try
             {
                 var apiResult = new FullPoskodViewModel();
-                var API_URL = Constants.API.BaseURL;
-                search = (string.IsNullOrEmpty(search)) ? "Johor" : search;
+
+                search = (string.IsNullOrEmpty(search)) ? Constants.StateName.DEFAULT_STATE : search;
 
                 using (var client = new HttpClient())
                 {
 
                     string url = $"{API_URL}Poskod?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}";
+
                     var response = client.GetAsync(url).Result;
-                    string responseAsString = await response.Content.ReadAsStringAsync();
-                    apiResult = JsonConvert.DeserializeObject<FullPoskodViewModel>(responseAsString);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseAsString = await response.Content.ReadAsStringAsync();
+
+                        apiResult = JsonConvert.DeserializeObject<FullPoskodViewModel>(responseAsString);
+                    }
+
                 }
 
-                logger.LogInformation($"Call poskod api for negeri {search}");
+                _logger.LogInformation($"Call poskod api for negeri {search}");
+
                 return apiResult = (apiResult.data != null) ? apiResult : null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                logger.LogError(ex, "Error call poskod api");
+                _logger.LogError(ex, "Error call poskod api");
+
                 return null;
             }
-           
+
         }
     }
 }
